@@ -138,15 +138,18 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "static",  # ✅ Points to: /your_project/static/
-]
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Remove ALL duplicate declarations and keep only this:
 
-MEDIA_ROOT=BASE_DIR/"media"
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'  # MUST have the leading slash
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Production collection
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Your source files
 
-MEDIA_URL="/media/"
+# Whitenoise configuration (only declare once)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '587'
