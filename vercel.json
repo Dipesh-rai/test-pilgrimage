@@ -1,14 +1,32 @@
 {
-    "builds": [{
-            "src": "pilgrimage/wsgi.py",
-            "use": "@vercel/python",
-            "config": {
-                "maxLambdaSize": "15mb",
-                "runtime": "python3.11"
-            }
-        }],
-        "routes":[{
-            "src":"/(.*)",
-            "dest":"pilgrimage/wsgi.py"
-        }]
+  "version": 2,
+  "builds": [
+    {
+      "src": "pilgrimage/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.11",
+        "includeFiles": ["requirements.txt", "pilgrimage/**", "staticfiles/**", "db.sqlite3"]
+      }
+    },
+    {
+      "src": "staticfiles/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "pilgrimage/wsgi.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "pilgrimage/wsgi.py"
+    }
+  ]
 }
